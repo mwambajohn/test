@@ -1,0 +1,84 @@
+<!Doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+   <title></title>
+   <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  </head>
+  <body class="w3-grey">
+
+       <nav>
+
+            <div>
+                home
+            </div>
+
+            <div onclick="location.href='#">
+                videos
+            </div>
+
+            <div onclick="location.href='#">
+                music
+            </div>
+
+            <div>
+                photos
+            </div>
+
+            <div>
+                about
+            </div>
+
+        </nav>
+    <div class="sticker">
+      <div>s</div><div>i</div><div>g</div><div>h</div><div>t</div><div>e</div><div>r</div>
+    </div>
+   <br>
+   <div class="note"></div>     
+        
+   <p id="status" class="w3-border-bottom"></p>
+  <!--news container below-->
+  <div class="w3-container w3-white"id="news"></div>
+  
+  <!--start computer code -->
+    <script>
+        $(document).ready(function(){
+          //nav contenr
+          $('nav').css({'display': 'flex','width':'100%','background':'aqua','padding':'1px','border':'1px solid black','margin-bottom':'5px'})
+          $('nav > div').css({'background':'black','border-radius':'6px', 'text-align': 'center','color':'white','flex-grow':'1','border':'1px solid white','font-size':'10px'})
+         //sticker content
+          $('.sticker').css({'width':'80%','display':'flex','margin':'0 auto','background':'white','border':'1px solid green','margin-bottom':'5px'})
+          $('.sticker > div').css({'flex-grow':'1','color':'white','text-align':'center','margin-left':'10px','border':'1px solid white'})
+          anime({targets:'.sticker',translateX:[{value:20,duration:2000},{value:-20,duration:2000},{value:0,duration:2000}],boxShadow:'5px 5px 5px red',loop:true})
+          //writting note
+          $('.note').text('welcome to sighter portal we hope you enjoy you your browsing experiance').addClass('w3-card-4 w3-border w3-border-red w3-panel w3-white w3-small').css({'width':'95%','margin':'0 auto'})
+          anime.timeline({targets:'.note',duration:1000,loop:true}).add({boxShadow:'5px 5px 5px blue'}).add({boxShadow:"5px 5px 5px red"}).add({boxShadow:"5px 5px 5px black"}).add({boxShadow:"5px 5px 5px aqua"}).add({boxShadow:"5px 5px 5px navy"})
+          //show if news will load or not if offline and callback every 5 sec
+         function status(){if(navigator.online){$("#status").text("news content below").addClass('w3-tiny w3-white')}else{$("#status").text("=> content retrieval error due to connection failure").addClass('w3-small w3-text-red')}}setInterval(status(),5000)})
+      
+    //inquiring news content to display 
+    const apiKey = '150ccd33101541d499819a832be82f85';const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+    fetch(newsUrl)
+        .then(response => response.json())
+        .then(data => {
+            const articles = data.articles;const newsContainer = document.getElementById('news');
+            articles.forEach(article => {
+                const { title, description, url } = article;const articleDiv = document.createElement('div');
+                articleDiv.innerHTML = `
+                    <h style="color:blue"><a href="${url}" target="_blank">${title}</a></h>
+                    <p>${description}</p>`;
+                    newsContainer.appendChild(articleDiv);
+            });
+            
+  })
+.catch(error => console.error('Error fetching news:', error));
+</script>
+        
+        <style>
+          .sticker > div:nth-child(even){background:blue}
+          .sticker > div:nth-child(odd){background:red}
+          </style>
+  </body>
+</html>
